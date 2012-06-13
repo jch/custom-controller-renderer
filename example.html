@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>example.rb</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>example.rb</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="nb">require</span> <span class="s1">&#39;bundler/setup&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;action_pack&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;abstract_controller&#39;</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-2'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>This custom controller demonstrates how to create a controller
+with rendering capabilities that does not depend on HTTP.
+For a full introduction, see <a href="http://intridea.com/blog/">this blog post</a>.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="k">class</span> <span class="nc">SearchRenderer</span> <span class="o">&lt;</span> <span class="no">AbstractController</span><span class="o">::</span><span class="no">Base</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-3'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <p>If we were in Rails, we could add the following:</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre></pre></div>
+      </td>
+    </tr>
+    <tr id='section-4'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <p>include Rails.application.routes.url_helpers  # rails route helpers
+include Rails.application.helpers             # rails helpers under app/helpers</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre></pre></div>
+      </td>
+    </tr>
+    <tr id='section-5'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <p>Add rendering mixins</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kp">include</span> <span class="no">AbstractController</span><span class="o">::</span><span class="no">Rendering</span>
+  <span class="kp">include</span> <span class="no">AbstractController</span><span class="o">::</span><span class="no">Logger</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-6'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <p>Setup templates and partials search path</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="n">append_view_path</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span> <span class="s2">&quot;../app/views&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-7'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-7">&#182;</a>
+        </div>
+        <p>Instance variables are available in the views,
+so we save the variables we want to access in the views</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">search_results</span><span class="p">)</span>
+    <span class="vi">@search_results</span> <span class="o">=</span> <span class="n">search_results</span>
+  <span class="k">end</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-8'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-8">&#182;</a>
+        </div>
+        <p>running this action will render &lsquo;app/views/search_renderer/foo.html.erb&rsquo;
+with @search_results, and route helpers available in the views.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="k">def</span> <span class="nf">execute</span>
+    <span class="n">render</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="s1">&#39;index&#39;</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-9'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-9">&#182;</a>
+        </div>
+        <p>Construct a SearchRenderer with some search results</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="n">renderer</span> <span class="o">=</span> <span class="no">SearchRenderer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span>
+  <span class="s2">&quot;Doe, a deer, a female deer&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Ray, a drop of golden sun&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Mi, a name I call myself&quot;</span>
+<span class="o">]</span><span class="p">)</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-10'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-10">&#182;</a>
+        </div>
+        <p>Run the action <code>execute</code></p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="nb">puts</span> <span class="n">renderer</span><span class="o">.</span><span class="n">execute</span></pre></div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
